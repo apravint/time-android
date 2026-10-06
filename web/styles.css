@@ -1,0 +1,365 @@
+/* ==========================================================================
+   TIME APP - DESIGN SYSTEM & TYPOGRAPHY ENGINE
+   ========================================================================== */
+
+:root {
+  --bg-color: #070913;
+  --text-color: #00f0ff;
+  --glow-color: rgba(0, 240, 255, 0.45);
+  --accent-color: #ff007f;
+  --subtext-color: rgba(255, 255, 255, 0.65);
+  --panel-bg: rgba(15, 20, 35, 0.85);
+  --panel-border: rgba(255, 255, 255, 0.12);
+}
+
+/* Theme 1: Cyber Neon (Default) */
+body.theme-cyber-neon {
+  --bg-color: #050814;
+  --text-color: #00f3ff;
+  --glow-color: rgba(0, 243, 255, 0.6);
+  --accent-color: #ff0055;
+  --subtext-color: #8fa0dd;
+}
+
+/* Theme 2: Tokyo Night */
+body.theme-tokyo-night {
+  --bg-color: #1a1b26;
+  --text-color: #7aa2f7;
+  --glow-color: rgba(122, 162, 247, 0.5);
+  --accent-color: #bb9af7;
+  --subtext-color: #a9b1d6;
+}
+
+/* Theme 3: OLED Stealth */
+body.theme-oled-dark {
+  --bg-color: #000000;
+  --text-color: #ffffff;
+  --glow-color: rgba(255, 255, 255, 0.2);
+  --accent-color: #333333;
+  --subtext-color: #666666;
+}
+
+/* Theme 4: Luxury Gold */
+body.theme-minimal-gold {
+  --bg-color: #0d0a07;
+  --text-color: #ffd700;
+  --glow-color: rgba(255, 215, 0, 0.5);
+  --accent-color: #ffaa00;
+  --subtext-color: #c5a059;
+}
+
+/* Theme 5: Emerald Matrix */
+body.theme-emerald {
+  --bg-color: #03140a;
+  --text-color: #00ff66;
+  --glow-color: rgba(0, 255, 102, 0.55);
+  --accent-color: #00cc44;
+  --subtext-color: #55aa77;
+}
+
+/* Theme 6: Crimson Red */
+body.theme-crimson {
+  --bg-color: #120305;
+  --text-color: #ff2a4b;
+  --glow-color: rgba(255, 42, 75, 0.55);
+  --accent-color: #ff758c;
+  --subtext-color: #b56576;
+}
+
+/* Theme 7: Nord Frost */
+body.theme-nord {
+  --bg-color: #2e3440;
+  --text-color: #88c0d0;
+  --glow-color: rgba(136, 192, 208, 0.45);
+  --accent-color: #81a1c1;
+  --subtext-color: #e5e9f0;
+}
+
+/* Typography Utility Classes */
+.font-orbitron { font-family: 'Orbitron', sans-serif; letter-spacing: 0.05em; }
+.font-outfit { font-family: 'Outfit', sans-serif; font-weight: 900; }
+.font-jetbrains { font-family: 'JetBrains Mono', monospace; font-weight: 800; }
+.font-monoton { font-family: 'Monoton', cursive; }
+.font-space { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+.font-cinzel { font-family: 'Cinzel', serif; font-weight: 700; }
+.font-playfair { font-family: 'Playfair Display', serif; font-weight: 900; }
+.font-retro { font-family: 'Press Start 2P', monospace; }
+
+/* Base Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Ambient Radial Glow */
+.ambient-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  height: 90vh;
+  background: radial-gradient(circle, var(--glow-color) 0%, rgba(0,0,0,0) 70%);
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 1;
+  transition: background 0.6s ease;
+}
+
+/* Night Dim Mode Overlay */
+body.night-mode {
+  filter: brightness(0.25) contrast(0.9);
+}
+
+/* Clock Container Layout */
+.clock-fullscreen-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.5rem 2rem;
+  z-index: 2;
+}
+
+/* Top Telemetry Header */
+.top-status-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--subtext-color);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.date-badge {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.5rem 1.2rem;
+  border-radius: 30px;
+  border: 1px solid var(--panel-border);
+  backdrop-filter: blur(10px);
+}
+
+.status-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.battery-badge {
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+.icon-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--panel-border);
+  color: var(--text-color);
+  padding: 0.5rem 0.8rem;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.icon-btn:active {
+  transform: scale(0.9);
+}
+
+/* Main Giant Clock Area */
+.time-main-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto 0;
+}
+
+.digits-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(4.5rem, 16vw, 16rem);
+  line-height: 0.9;
+  text-shadow: 0 0 35px var(--glow-color), 0 0 70px var(--glow-color);
+  transition: all 0.3s ease;
+}
+
+.clock-colon {
+  margin: 0 0.05em;
+  opacity: 0.9;
+  animation: colonBlink 2s infinite ease-in-out;
+}
+
+@keyframes colonBlink {
+  0%, 100% { opacity: 0.95; }
+  50% { opacity: 0.25; }
+}
+
+.ampm-badge {
+  font-size: clamp(1.2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  margin-top: 1rem;
+  letter-spacing: 0.2em;
+  color: var(--accent-color);
+  text-shadow: 0 0 20px var(--accent-color);
+}
+
+/* Footer Status */
+.bottom-status-footer {
+  font-size: 0.9rem;
+  color: var(--subtext-color);
+  letter-spacing: 0.15em;
+  opacity: 0.7;
+}
+
+/* Control Trigger Overlay */
+.control-trigger {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  z-index: 10;
+}
+
+/* Control Panel Drawer */
+.control-panel-drawer {
+  position: absolute;
+  bottom: -400px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92%, 600px);
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: 24px;
+  padding: 1.5rem;
+  z-index: 20;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  transition: bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.control-panel-drawer.active {
+  bottom: 25px;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.panel-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.panel-close-btn {
+  background: none;
+  border: none;
+  color: var(--subtext-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.panel-section {
+  margin-bottom: 1.2rem;
+}
+
+.section-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--subtext-color);
+  margin-bottom: 0.6rem;
+}
+
+/* Grids */
+.font-selector-grid, .theme-selector-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.font-chip, .theme-chip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--panel-border);
+  color: #ffffff;
+  padding: 0.5rem 0.9rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.font-chip.active, .theme-chip.active {
+  background: var(--text-color);
+  color: #000000;
+  border-color: var(--text-color);
+  font-weight: 700;
+}
+
+/* Swatches */
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.swatch.cyber { background: #00f3ff; }
+.swatch.tokyo { background: #7aa2f7; }
+.swatch.oled { background: #ffffff; }
+.swatch.gold { background: #ffd700; }
+.swatch.emerald { background: #00ff66; }
+.swatch.crimson { background: #ff2a4b; }
+.swatch.nord { background: #88c0d0; }
+
+/* Toggle Row */
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid var(--panel-border);
+  padding-top: 1rem;
+}
+
+.toggle-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--subtext-color);
+}
+
+.toggle-switch {
+  accent-color: var(--text-color);
+  width: 18px;
+  height: 18px;
+}

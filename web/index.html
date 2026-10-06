@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Time</title>
+  
+  <!-- Google Fonts import for top-notch typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=JetBrains+Mono:wght@400;700;800&family=Monoton&family=Orbitron:wght@400;700;900&family=Outfit:wght@300;600;900&family=Playfair+Display:ital,wght@0,600;0,900;1,400&family=Press+Start+2P&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-cyber-neon font-orbitron">
+
+  <!-- Ambient Dynamic Glowing Background Canvas -->
+  <div class="ambient-glow" id="ambient-glow"></div>
+
+  <!-- Main Fullscreen Clock Display Container -->
+  <div class="clock-fullscreen-container" id="clock-container">
+    
+    <!-- Top Telemetry Header (Date & Battery) -->
+    <div class="top-status-header">
+      <div class="date-badge" id="date-display">TUESDAY, OCTOBER 6, 2026</div>
+      <div class="status-right">
+        <span class="battery-badge" id="battery-display">⚡ 100%</span>
+        <button class="icon-btn" id="night-mode-btn" title="Night Dim Mode">🌙</button>
+      </div>
+    </div>
+
+    <!-- Main Giant Digital Clock Display -->
+    <div class="time-main-display">
+      <div class="digits-wrapper">
+        <span class="digit-hours" id="clock-hours">07</span>
+        <span class="clock-colon">:</span>
+        <span class="digit-minutes" id="clock-minutes">28</span>
+        <span class="clock-colon" id="colon-seconds">:</span>
+        <span class="digit-seconds" id="clock-seconds">46</span>
+      </div>
+      <div class="ampm-badge" id="clock-ampm">PM</div>
+    </div>
+
+    <!-- Bottom Secondary Info / World Timezone -->
+    <div class="bottom-status-footer">
+      <span class="location-badge" id="timezone-display">UTC • Coordinated Universal Time</span>
+    </div>
+  </div>
+
+  <!-- Hover/Tap Trigger Area for Controls -->
+  <div class="control-trigger" id="control-trigger"></div>
+
+  <!-- Bottom Floating Glassmorphic Control Panel -->
+  <div class="control-panel-drawer" id="control-panel">
+    <div class="panel-header">
+      <span class="panel-title">⚡ Time Customizer</span>
+      <button class="panel-close-btn" id="close-panel-btn">✕</button>
+    </div>
+
+    <div class="panel-section">
+      <label class="section-label">SELECT TYPOGRAPHY</label>
+      <div class="font-selector-grid">
+        <button class="font-chip active" data-font="font-orbitron">Orbitron</button>
+        <button class="font-chip" data-font="font-outfit">Outfit</button>
+        <button class="font-chip" data-font="font-jetbrains">JetBrains Mono</button>
+        <button class="font-chip" data-font="font-monoton">Monoton</button>
+        <button class="font-chip" data-font="font-space">Space Grotesk</button>
+        <button class="font-chip" data-font="font-cinzel">Cinzel</button>
+        <button class="font-chip" data-font="font-playfair">Playfair</button>
+        <button class="font-chip" data-font="font-retro">8-Bit Arcade</button>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <label class="section-label">THEMES & GLOW PALETTE</label>
+      <div class="theme-selector-grid">
+        <button class="theme-chip active" data-theme="theme-cyber-neon"><span class="swatch cyber"></span>Cyber Neon</button>
+        <button class="theme-chip" data-theme="theme-tokyo-night"><span class="swatch tokyo"></span>Tokyo Night</button>
+        <button class="theme-chip" data-theme="theme-oled-dark"><span class="swatch oled"></span>OLED Stealth</button>
+        <button class="theme-chip" data-theme="theme-minimal-gold"><span class="swatch gold"></span>Luxury Gold</button>
+        <button class="theme-chip" data-theme="theme-emerald"><span class="swatch emerald"></span>Emerald Matrix</button>
+        <button class="theme-chip" data-theme="theme-crimson"><span class="swatch crimson"></span>Crimson Red</button>
+        <button class="theme-chip" data-theme="theme-nord"><span class="swatch nord"></span>Nord Frost</button>
+      </div>
+    </div>
+
+    <div class="panel-section toggle-row">
+      <div class="toggle-item">
+        <span>24-Hour Clock</span>
+        <input type="checkbox" id="toggle-24h" class="toggle-switch">
+      </div>
+      <div class="toggle-item">
+        <span>Show Seconds</span>
+        <input type="checkbox" id="toggle-seconds" class="toggle-switch" checked>
+      </div>
+      <div class="toggle-item">
+        <span>Keep Screen On</span>
+        <input type="checkbox" id="toggle-wakelock" class="toggle-switch" checked>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
