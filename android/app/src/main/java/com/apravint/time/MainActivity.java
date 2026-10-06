@@ -39,10 +39,21 @@ public class MainActivity extends Activity {
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
 
         webView.addJavascriptInterface(new TimeBridge(), "AndroidTimeBridge");
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                if (failingUrl != null && failingUrl.contains("index.html")) {
+                    if (failingUrl.endsWith("/web/index.html")) {
+                        view.loadUrl("file:///android_asset/index.html");
+                    } else if (failingUrl.endsWith("/index.html")) {
+                        view.loadUrl("file:///android_asset/web/index.html");
+                    }
+                }
+            }
+        });
         webView.setWebChromeClient(new WebChromeClient());
 
-        webView.loadUrl("file:///android_asset/web/index.html");
+        webView.loadUrl("file:///android_asset/index.html");
     }
 
     private void setImmersiveSticky() {
