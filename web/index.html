@@ -3,34 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Time</title>
+  <title>Time v2.0</title>
   
-  <!-- Google Fonts import for top-notch typography -->
+  <!-- Google Fonts import for 14 top-notch custom typography styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=JetBrains+Mono:wght@400;700;800&family=Monoton&family=Orbitron:wght@400;700;900&family=Outfit:wght@300;600;900&family=Playfair+Display:ital,wght@0,600;0,900;1,400&family=Press+Start+2P&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Audiowide&family=Bungee+Shade&family=Cinzel:wght@500;700;900&family=Comfortaa:wght@400;700&family=JetBrains+Mono:wght@400;700;800&family=Monoton&family=Orbitron:wght@400;700;900&family=Outfit:wght@300;600;900&family=Playfair+Display:ital,wght@0,600;0,900;1,400&family=Press+Start+2P&family=Share+Tech+Mono&family=Space+Grotesk:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="theme-cyber-neon font-orbitron">
+<body class="theme-cyber-neon font-orbitron layout-digital">
 
-  <!-- Ambient Dynamic Glowing Background Canvas -->
+  <!-- Dynamic Animated Starfield / Glowing Canvas -->
+  <canvas id="particles-canvas" class="particles-canvas"></canvas>
   <div class="ambient-glow" id="ambient-glow"></div>
 
   <!-- Main Fullscreen Clock Display Container -->
   <div class="clock-fullscreen-container" id="clock-container">
     
-    <!-- Top Telemetry Header (Date & Battery) -->
+    <!-- Top Telemetry Header -->
     <div class="top-status-header">
-      <div class="date-badge" id="date-display">TUESDAY, OCTOBER 6, 2026</div>
+      <div class="date-badge" id="date-display">TUESDAY, OCTOBER 7, 2026</div>
       <div class="status-right">
         <span class="battery-badge" id="battery-display">⚡ 100%</span>
         <button class="icon-btn" id="night-mode-btn" title="Night Dim Mode">🌙</button>
+        <button class="icon-btn" id="sound-tick-btn" title="Synthesized Soft Tick">🔊</button>
       </div>
     </div>
 
-    <!-- Main Giant Digital Clock Display -->
-    <div class="time-main-display">
-      <div class="digits-wrapper">
+    <!-- 1. Digital Clock Mode Display -->
+    <div class="time-main-display" id="digital-clock-view">
+      <div class="digits-wrapper" id="digits-wrapper">
         <span class="digit-hours" id="clock-hours">07</span>
         <span class="clock-colon">:</span>
         <span class="digit-minutes" id="clock-minutes">28</span>
@@ -40,41 +42,80 @@
       <div class="ampm-badge" id="clock-ampm">PM</div>
     </div>
 
+    <!-- 2. Analog Clock Mode Display -->
+    <div class="analog-clock-wrapper" id="analog-clock-view" style="display:none;">
+      <div class="analog-face">
+        <div class="analog-hand hour-hand" id="analog-hour-hand"></div>
+        <div class="analog-hand minute-hand" id="analog-minute-hand"></div>
+        <div class="analog-hand second-hand" id="analog-second-hand"></div>
+        <div class="analog-center-dot"></div>
+        <!-- Hour Markers -->
+        <span class="marker m12">12</span>
+        <span class="marker m3">3</span>
+        <span class="marker m6">6</span>
+        <span class="marker m9">9</span>
+      </div>
+    </div>
+
+    <!-- 3. Minimalist Word Clock Mode Display -->
+    <div class="word-clock-wrapper" id="word-clock-view" style="display:none;">
+      <div class="word-clock-text" id="word-clock-text">IT IS SEVEN TWENTY-EIGHT PM</div>
+    </div>
+
     <!-- Bottom Secondary Info / World Timezone -->
     <div class="bottom-status-footer">
-      <span class="location-badge" id="timezone-display">UTC • Coordinated Universal Time</span>
+      <span class="location-badge" id="timezone-display">UTC • REAL-TIME CLOCK</span>
+      <span class="hint-badge">TAP ANYWHERE FOR SETTINGS</span>
     </div>
   </div>
-
-  <!-- Hover/Tap Trigger Area for Controls -->
-  <div class="control-trigger" id="control-trigger"></div>
 
   <!-- Bottom Floating Glassmorphic Control Panel -->
   <div class="control-panel-drawer" id="control-panel">
     <div class="panel-header">
-      <span class="panel-title">⚡ Time Customizer</span>
+      <span class="panel-title">⚡ Time Customizer v2.0</span>
       <button class="panel-close-btn" id="close-panel-btn">✕</button>
     </div>
 
+    <!-- Clock Display Mode Switcher -->
     <div class="panel-section">
-      <label class="section-label">SELECT TYPOGRAPHY</label>
+      <label class="section-label">CLOCK MODE</label>
+      <div class="mode-selector-grid">
+        <button class="mode-chip active" data-mode="layout-digital">Digital Clock</button>
+        <button class="mode-chip" data-mode="layout-analog">Glowing Analog</button>
+        <button class="mode-chip" data-mode="layout-word">Minimal Word Clock</button>
+      </div>
+    </div>
+
+    <!-- Font Selector (14 Custom Google Fonts) -->
+    <div class="panel-section">
+      <label class="section-label">14 TOP-NOTCH FONTS</label>
       <div class="font-selector-grid">
         <button class="font-chip active" data-font="font-orbitron">Orbitron</button>
+        <button class="font-chip" data-font="font-audiowide">Audiowide</button>
+        <button class="font-chip" data-font="font-bungee">Bungee 3D</button>
+        <button class="font-chip" data-font="font-sharetech">Cyber Terminal</button>
         <button class="font-chip" data-font="font-outfit">Outfit</button>
-        <button class="font-chip" data-font="font-jetbrains">JetBrains Mono</button>
+        <button class="font-chip" data-font="font-jetbrains">JetBrains</button>
+        <button class="font-chip" data-font="font-syne">Syne Bold</button>
         <button class="font-chip" data-font="font-monoton">Monoton</button>
+        <button class="font-chip" data-font="font-comfortaa">Comfortaa</button>
+        <button class="font-chip" data-font="font-abril">Abril Fatface</button>
         <button class="font-chip" data-font="font-space">Space Grotesk</button>
-        <button class="font-chip" data-font="font-cinzel">Cinzel</button>
+        <button class="font-chip" data-font="font-cinzel">Cinzel Luxury</button>
         <button class="font-chip" data-font="font-playfair">Playfair</button>
         <button class="font-chip" data-font="font-retro">8-Bit Arcade</button>
       </div>
     </div>
 
+    <!-- Theme & Glow Palette -->
     <div class="panel-section">
-      <label class="section-label">THEMES & GLOW PALETTE</label>
+      <label class="section-label">VIBRANT THEMES & GLOW PALETTES</label>
       <div class="theme-selector-grid">
         <button class="theme-chip active" data-theme="theme-cyber-neon"><span class="swatch cyber"></span>Cyber Neon</button>
+        <button class="theme-chip" data-theme="theme-sunset"><span class="swatch sunset"></span>Sunset Cyber</button>
+        <button class="theme-chip" data-theme="theme-vaporwave"><span class="swatch vaporwave"></span>Vaporwave 80s</button>
         <button class="theme-chip" data-theme="theme-tokyo-night"><span class="swatch tokyo"></span>Tokyo Night</button>
+        <button class="theme-chip" data-theme="theme-aurora"><span class="swatch aurora"></span>Aurora Borealis</button>
         <button class="theme-chip" data-theme="theme-oled-dark"><span class="swatch oled"></span>OLED Stealth</button>
         <button class="theme-chip" data-theme="theme-minimal-gold"><span class="swatch gold"></span>Luxury Gold</button>
         <button class="theme-chip" data-theme="theme-emerald"><span class="swatch emerald"></span>Emerald Matrix</button>
@@ -83,6 +124,19 @@
       </div>
     </div>
 
+    <!-- Adjusters & Sliders -->
+    <div class="panel-section slider-section">
+      <div class="slider-group">
+        <label>NEON GLOW INTENSITY</label>
+        <input type="range" id="glow-slider" min="0" max="100" value="70">
+      </div>
+      <div class="slider-group">
+        <label>FONT SIZE</label>
+        <input type="range" id="size-slider" min="80" max="150" value="100">
+      </div>
+    </div>
+
+    <!-- Toggles Row -->
     <div class="panel-section toggle-row">
       <div class="toggle-item">
         <span>24-Hour Clock</span>
@@ -91,6 +145,10 @@
       <div class="toggle-item">
         <span>Show Seconds</span>
         <input type="checkbox" id="toggle-seconds" class="toggle-switch" checked>
+      </div>
+      <div class="toggle-item">
+        <span>Ambient Stars</span>
+        <input type="checkbox" id="toggle-particles" class="toggle-switch" checked>
       </div>
       <div class="toggle-item">
         <span>Keep Screen On</span>

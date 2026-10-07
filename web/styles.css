@@ -1,85 +1,120 @@
 /* ==========================================================================
-   TIME APP - DESIGN SYSTEM & TYPOGRAPHY ENGINE
+   TIME APP v2.0 - ULTIMATE DESIGN SYSTEM & TYPOGRAPHY ENGINE
    ========================================================================== */
 
 :root {
   --bg-color: #070913;
   --text-color: #00f0ff;
-  --glow-color: rgba(0, 240, 255, 0.45);
+  --glow-color: rgba(0, 240, 255, 0.55);
   --accent-color: #ff007f;
   --subtext-color: rgba(255, 255, 255, 0.65);
-  --panel-bg: rgba(15, 20, 35, 0.85);
-  --panel-border: rgba(255, 255, 255, 0.12);
+  --panel-bg: rgba(15, 20, 35, 0.88);
+  --panel-border: rgba(255, 255, 255, 0.15);
+  --glow-radius: 35px;
+  --font-scale: 1;
 }
 
 /* Theme 1: Cyber Neon (Default) */
 body.theme-cyber-neon {
   --bg-color: #050814;
   --text-color: #00f3ff;
-  --glow-color: rgba(0, 243, 255, 0.6);
+  --glow-color: rgba(0, 243, 255, 0.65);
   --accent-color: #ff0055;
   --subtext-color: #8fa0dd;
 }
 
-/* Theme 2: Tokyo Night */
+/* Theme 2: Sunset Cyberpunk */
+body.theme-sunset {
+  --bg-color: #1a0826;
+  --text-color: #ff5e62;
+  --glow-color: rgba(255, 94, 98, 0.6);
+  --accent-color: #ff9966;
+  --subtext-color: #d19fe8;
+}
+
+/* Theme 3: Vaporwave 80s */
+body.theme-vaporwave {
+  --bg-color: #12002b;
+  --text-color: #ff71ce;
+  --glow-color: rgba(255, 113, 206, 0.65);
+  --accent-color: #01cdfe;
+  --subtext-color: #05ffa1;
+}
+
+/* Theme 4: Tokyo Night */
 body.theme-tokyo-night {
   --bg-color: #1a1b26;
   --text-color: #7aa2f7;
-  --glow-color: rgba(122, 162, 247, 0.5);
+  --glow-color: rgba(122, 162, 247, 0.55);
   --accent-color: #bb9af7;
   --subtext-color: #a9b1d6;
 }
 
-/* Theme 3: OLED Stealth */
+/* Theme 5: Aurora Borealis */
+body.theme-aurora {
+  --bg-color: #041d24;
+  --text-color: #00ffca;
+  --glow-color: rgba(0, 255, 202, 0.6);
+  --accent-color: #05bfdb;
+  --subtext-color: #a5f3fc;
+}
+
+/* Theme 6: OLED Stealth */
 body.theme-oled-dark {
   --bg-color: #000000;
   --text-color: #ffffff;
-  --glow-color: rgba(255, 255, 255, 0.2);
-  --accent-color: #333333;
-  --subtext-color: #666666;
+  --glow-color: rgba(255, 255, 255, 0.25);
+  --accent-color: #444444;
+  --subtext-color: #777777;
 }
 
-/* Theme 4: Luxury Gold */
+/* Theme 7: Luxury Gold */
 body.theme-minimal-gold {
   --bg-color: #0d0a07;
   --text-color: #ffd700;
-  --glow-color: rgba(255, 215, 0, 0.5);
+  --glow-color: rgba(255, 215, 0, 0.6);
   --accent-color: #ffaa00;
   --subtext-color: #c5a059;
 }
 
-/* Theme 5: Emerald Matrix */
+/* Theme 8: Emerald Matrix */
 body.theme-emerald {
   --bg-color: #03140a;
   --text-color: #00ff66;
-  --glow-color: rgba(0, 255, 102, 0.55);
+  --glow-color: rgba(0, 255, 102, 0.6);
   --accent-color: #00cc44;
   --subtext-color: #55aa77;
 }
 
-/* Theme 6: Crimson Red */
+/* Theme 9: Crimson Red */
 body.theme-crimson {
   --bg-color: #120305;
   --text-color: #ff2a4b;
-  --glow-color: rgba(255, 42, 75, 0.55);
+  --glow-color: rgba(255, 42, 75, 0.6);
   --accent-color: #ff758c;
   --subtext-color: #b56576;
 }
 
-/* Theme 7: Nord Frost */
+/* Theme 10: Nord Frost */
 body.theme-nord {
   --bg-color: #2e3440;
   --text-color: #88c0d0;
-  --glow-color: rgba(136, 192, 208, 0.45);
+  --glow-color: rgba(136, 192, 208, 0.5);
   --accent-color: #81a1c1;
   --subtext-color: #e5e9f0;
 }
 
-/* Typography Utility Classes */
+/* Typography Utility Classes (14 Custom Fonts) */
 .font-orbitron { font-family: 'Orbitron', sans-serif; letter-spacing: 0.05em; }
+.font-audiowide { font-family: 'Audiowide', cursive; letter-spacing: 0.08em; }
+.font-bungee { font-family: 'Bungee Shade', cursive; }
+.font-sharetech { font-family: 'Share Tech Mono', monospace; }
 .font-outfit { font-family: 'Outfit', sans-serif; font-weight: 900; }
 .font-jetbrains { font-family: 'JetBrains Mono', monospace; font-weight: 800; }
+.font-syne { font-family: 'Syne', sans-serif; font-weight: 800; }
 .font-monoton { font-family: 'Monoton', cursive; }
+.font-comfortaa { font-family: 'Comfortaa', cursive; font-weight: 700; }
+.font-abril { font-family: 'Abril Fatface', cursive; }
 .font-space { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
 .font-cinzel { font-family: 'Cinzel', serif; font-weight: 700; }
 .font-playfair { font-family: 'Playfair Display', serif; font-weight: 900; }
@@ -104,6 +139,17 @@ html, body {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
+/* Background Particles Canvas */
+.particles-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* Ambient Radial Glow */
 .ambient-glow {
   position: absolute;
@@ -112,8 +158,8 @@ html, body {
   transform: translate(-50%, -50%);
   width: 90vw;
   height: 90vh;
-  background: radial-gradient(circle, var(--glow-color) 0%, rgba(0,0,0,0) 70%);
-  opacity: 0.4;
+  background: radial-gradient(circle, var(--glow-color) 0%, rgba(0,0,0,0) 75%);
+  opacity: 0.5;
   pointer-events: none;
   z-index: 1;
   transition: background 0.6s ease;
@@ -121,10 +167,10 @@ html, body {
 
 /* Night Dim Mode Overlay */
 body.night-mode {
-  filter: brightness(0.25) contrast(0.9);
+  filter: brightness(0.22) contrast(0.85);
 }
 
-/* Clock Container Layout */
+/* Main Container Layout */
 .clock-fullscreen-container {
   position: relative;
   width: 100%;
@@ -133,17 +179,17 @@ body.night-mode {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 2.5rem 2rem;
+  padding: 2.2rem 2rem;
   z-index: 2;
 }
 
-/* Top Telemetry Header */
+/* Top Status Header */
 .top-status-header {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--subtext-color);
   text-transform: uppercase;
@@ -151,7 +197,7 @@ body.night-mode {
 }
 
 .date-badge {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.05);
   padding: 0.5rem 1.2rem;
   border-radius: 30px;
   border: 1px solid var(--panel-border);
@@ -161,7 +207,7 @@ body.night-mode {
 .status-right {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.8rem;
 }
 
 .battery-badge {
@@ -184,7 +230,7 @@ body.night-mode {
   transform: scale(0.9);
 }
 
-/* Main Giant Clock Area */
+/* 1. Digital Clock Display */
 .time-main-display {
   display: flex;
   flex-direction: column;
@@ -197,9 +243,9 @@ body.night-mode {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: clamp(4.5rem, 16vw, 16rem);
+  font-size: calc(clamp(4.5rem, 16vw, 16rem) * var(--font-scale));
   line-height: 0.9;
-  text-shadow: 0 0 35px var(--glow-color), 0 0 70px var(--glow-color);
+  text-shadow: 0 0 var(--glow-radius) var(--glow-color), 0 0 calc(var(--glow-radius) * 2) var(--glow-color);
   transition: all 0.3s ease;
 }
 
@@ -223,44 +269,138 @@ body.night-mode {
   text-shadow: 0 0 20px var(--accent-color);
 }
 
-/* Footer Status */
-.bottom-status-footer {
-  font-size: 0.9rem;
-  color: var(--subtext-color);
-  letter-spacing: 0.15em;
-  opacity: 0.7;
+/* 2. Analog Clock View */
+.analog-clock-wrapper {
+  margin: auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Control Trigger Overlay */
-.control-trigger {
+.analog-face {
+  position: relative;
+  width: min(70vw, 420px);
+  height: min(70vw, 420px);
+  border-radius: 50%;
+  border: 4px solid var(--text-color);
+  box-shadow: 0 0 var(--glow-radius) var(--glow-color), inset 0 0 var(--glow-radius) var(--glow-color);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.analog-hand {
   position: absolute;
-  bottom: 0;
-  left: 0;
+  bottom: 50%;
+  left: 50%;
+  transform-origin: bottom center;
+  border-radius: 10px;
+  transition: transform 0.05s cubic-bezier(0.4, 2.08, 0.55, 0.44);
+}
+
+.hour-hand {
+  width: 8px;
+  height: 28%;
+  background: var(--text-color);
+  box-shadow: 0 0 15px var(--text-color);
+  transform: translateX(-50%) rotate(0deg);
+}
+
+.minute-hand {
+  width: 5px;
+  height: 40%;
+  background: var(--text-color);
+  box-shadow: 0 0 15px var(--text-color);
+  transform: translateX(-50%) rotate(0deg);
+}
+
+.second-hand {
+  width: 2px;
+  height: 45%;
+  background: var(--accent-color);
+  box-shadow: 0 0 15px var(--accent-color);
+  transform: translateX(-50%) rotate(0deg);
+}
+
+.analog-center-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  box-shadow: 0 0 20px var(--accent-color);
+}
+
+.marker {
+  position: absolute;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--subtext-color);
+}
+
+.m12 { top: 15px; left: 50%; transform: translateX(-50%); }
+.m3 { right: 20px; top: 50%; transform: translateY(-50%); }
+.m6 { bottom: 15px; left: 50%; transform: translateX(-50%); }
+.m9 { left: 20px; top: 50%; transform: translateY(-50%); }
+
+/* 3. Word Clock View */
+.word-clock-wrapper {
+  margin: auto 0;
+  text-align: center;
+  max-width: 85%;
+}
+
+.word-clock-text {
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 900;
+  line-height: 1.3;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 var(--glow-radius) var(--glow-color);
+  color: var(--text-color);
+}
+
+/* Footer Status */
+.bottom-status-footer {
   width: 100%;
-  height: 60px;
-  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--subtext-color);
+  letter-spacing: 0.12em;
+  opacity: 0.8;
+}
+
+.hint-badge {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
 }
 
 /* Control Panel Drawer */
 .control-panel-drawer {
   position: absolute;
-  bottom: -400px;
+  bottom: -600px;
   left: 50%;
   transform: translateX(-50%);
-  width: min(92%, 600px);
+  width: min(94%, 650px);
+  max-height: 85vh;
+  overflow-y: auto;
   background: var(--panel-bg);
   border: 1px solid var(--panel-border);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border-radius: 24px;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-radius: 28px;
   padding: 1.5rem;
   z-index: 20;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
   transition: bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .control-panel-drawer.active {
-  bottom: 25px;
+  bottom: 20px;
 }
 
 .panel-header {
@@ -271,8 +411,8 @@ body.night-mode {
 }
 
 .panel-title {
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: 1.2rem;
+  font-weight: 800;
   color: var(--text-color);
 }
 
@@ -280,7 +420,7 @@ body.night-mode {
   background: none;
   border: none;
   color: var(--subtext-color);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   cursor: pointer;
 }
 
@@ -297,19 +437,18 @@ body.night-mode {
   margin-bottom: 0.6rem;
 }
 
-/* Grids */
-.font-selector-grid, .theme-selector-grid {
+.mode-selector-grid, .font-selector-grid, .theme-selector-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
 
-.font-chip, .theme-chip {
+.mode-chip, .font-chip, .theme-chip {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--panel-border);
   color: #ffffff;
   padding: 0.5rem 0.9rem;
-  border-radius: 12px;
+  border-radius: 14px;
   font-size: 0.85rem;
   cursor: pointer;
   display: flex;
@@ -318,11 +457,11 @@ body.night-mode {
   transition: all 0.2s ease;
 }
 
-.font-chip.active, .theme-chip.active {
+.mode-chip.active, .font-chip.active, .theme-chip.active {
   background: var(--text-color);
   color: #000000;
   border-color: var(--text-color);
-  font-weight: 700;
+  font-weight: 800;
 }
 
 /* Swatches */
@@ -334,17 +473,46 @@ body.night-mode {
 }
 
 .swatch.cyber { background: #00f3ff; }
+.swatch.sunset { background: #ff5e62; }
+.swatch.vaporwave { background: #ff71ce; }
 .swatch.tokyo { background: #7aa2f7; }
+.swatch.aurora { background: #00ffca; }
 .swatch.oled { background: #ffffff; }
 .swatch.gold { background: #ffd700; }
 .swatch.emerald { background: #00ff66; }
 .swatch.crimson { background: #ff2a4b; }
 .swatch.nord { background: #88c0d0; }
 
+/* Sliders */
+.slider-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.slider-group label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--subtext-color);
+  letter-spacing: 0.08em;
+}
+
+.slider-group input {
+  accent-color: var(--text-color);
+  cursor: pointer;
+}
+
 /* Toggle Row */
 .toggle-row {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 1rem;
   border-top: 1px solid var(--panel-border);
   padding-top: 1rem;
@@ -354,7 +522,7 @@ body.night-mode {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--subtext-color);
 }
 

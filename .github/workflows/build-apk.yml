@@ -100,17 +100,16 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
         with:
-          tag_name: "v1.0.0"
+          tag_name: "v2.0.0"
           files: Time.apk
-          name: "Time v1.0.0"
+          name: "Time v2.0.0"
           body: |
-            ## ⏰ Time - Fullscreen Top-Notch Digital Clock App v1.0.0
+            ## ⏰ Time - Fullscreen Top-Notch Digital, Analog & Word Clock App v2.0.0
             
             Developed by **Ayyappa Pravin** (<apravint@gmail.com>)
             
-            - **Top-Notch Typography Engine**: Google Fonts support including Orbitron, Outfit, JetBrains Mono, Monoton, Space Grotesk, Cinzel, Playfair Display, and 8-Bit Arcade.
-            - **Dynamic Ambient Glow Themes**: Cyber Neon, Tokyo Night, OLED Stealth, Luxury Gold, Emerald Matrix, Crimson Red, and Nord Frost.
-            - **Immersive Fullscreen Mode**: Sticky system UI hiding navigation bars for desktop/bedside clock setups.
-            - **Wake-Lock & Night Mode**: Keep-screen-on support and low-brightness night dimming to prevent OLED burn-in.
-            - **Battery & Date Telemetry**: Real-time battery status and full calendar date display.
-            - **12h/24h & Seconds Toggles**: Fully customizable digital time format.
+            - **14 Top-Notch Custom Google Fonts**: Orbitron, Audiowide, Bungee 3D, Cyber Terminal (Share Tech Mono), Outfit, JetBrains Mono, Syne Bold, Monoton, Comfortaa, Abril Fatface, Space Grotesk, Cinzel, Playfair Display, and 8-Bit Arcade 2P.
+            - **10 Dynamic Themes & Glow Palettes**: Cyber Neon, Sunset Cyberpunk, Vaporwave 80s, Tokyo Night, Aurora Borealis, OLED Stealth, Luxury Gold, Emerald Matrix, Crimson Red, and Nord Frost.
+            - **3 Clock Display Modes**: Digital Clock, Glowing Analog Clock Face, and Minimalist Text Word Clock.
+            - **Interactive Ambient Canvas & Sliders**: Starfield ambient particle background engine, custom text size slider, and neon glow intensity adjuster.
+            - **Immersive Fullscreen & Audio Tick**: Sticky system UI, screen wake-lock, night mode dimming, and web audio synthesized soft tick sound.
