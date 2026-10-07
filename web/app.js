@@ -39,7 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Drawers & Modals
     const clockContainer = document.getElementById('clock-container');
     const controlPanel = document.getElementById('control-panel');
+    const panelBackdrop = document.getElementById('panel-backdrop');
     const closePanelBtn = document.getElementById('close-panel-btn');
+    const settingsBtn = document.getElementById('settings-btn');
+    const hintSettingsTrigger = document.getElementById('hint-settings-trigger');
     const nightModeBtn = document.getElementById('night-mode-btn');
     const soundTickBtn = document.getElementById('sound-tick-btn');
 
@@ -51,8 +54,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleParticles = document.getElementById('toggle-particles');
     const toggleWakelock = document.getElementById('toggle-wakelock');
 
+    // Body Class Manager
+    function updateBodyClasses() {
+        let classList = [currentTheme, currentFont, currentMode];
+        if (isNightMode) classList.push('night-mode');
+        document.body.className = classList.join(' ');
+    }
+
     // Initialize UI State
-    document.body.className = `${currentTheme} ${currentFont} ${currentMode}`;
+    updateBodyClasses();
     if (toggle24h) toggle24h.checked = is24Hour;
     if (toggleSeconds) toggleSeconds.checked = showSeconds;
     if (toggleParticles) toggleParticles.checked = showParticles;
@@ -71,6 +81,40 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.AndroidTimeBridge && window.AndroidTimeBridge.vibrate) {
             window.AndroidTimeBridge.vibrate();
         }
+    }
+
+    // Customizer Drawer Control (Open / Close)
+    function openCustomizer() {
+        triggerHaptics();
+        if (controlPanel) controlPanel.classList.add('active');
+        if (panelBackdrop) panelBackdrop.classList.add('active');
+    }
+
+    function closeCustomizer() {
+        triggerHaptics();
+        if (controlPanel) controlPanel.classList.remove('active');
+        if (panelBackdrop) panelBackdrop.classList.remove('active');
+    }
+
+    function toggleCustomizer() {
+        if (controlPanel && controlPanel.classList.contains('active')) {
+            closeCustomizer();
+        } else {
+            openCustomizer();
+        }
+    }
+
+    if (settingsBtn) settingsBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleCustomizer(); });
+    if (hintSettingsTrigger) hintSettingsTrigger.addEventListener('click', (e) => { e.stopPropagation(); toggleCustomizer(); });
+    if (closePanelBtn) closePanelBtn.addEventListener('click', (e) => { e.stopPropagation(); closeCustomizer(); });
+    if (panelBackdrop) panelBackdrop.addEventListener('click', () => closeCustomizer());
+
+    // Clock Container Tap (Open customizer unless clicking a top button)
+    if (clockContainer) {
+        clockContainer.addEventListener('click', (e) => {
+            if (e.target.closest('#night-mode-btn') || e.target.closest('#sound-tick-btn') || e.target.closest('#settings-btn')) return;
+            toggleCustomizer();
+        });
     }
 
     // Apply Sliders
@@ -239,11 +283,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mode Selector
     document.querySelectorAll('.mode-chip').forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
             triggerHaptics();
             currentMode = btn.dataset.mode;
             localStorage.setItem('time_mode', currentMode);
-            document.body.className = `${currentTheme} ${currentFont} ${currentMode}`;
+            updateBodyClasses();
             updateModeChips();
             updateModeView();
         });
@@ -263,11 +308,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Font Selector
     document.querySelectorAll('.font-chip').forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
             triggerHaptics();
             currentFont = btn.dataset.font;
             localStorage.setItem('time_font', currentFont);
-            document.body.className = `${currentTheme} ${currentFont} ${currentMode}`;
+            updateBodyClasses();
             updateFontChips();
         });
     });
@@ -280,11 +326,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Theme Selector
     document.querySelectorAll('.theme-chip').forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
             triggerHaptics();
             currentTheme = btn.dataset.theme;
             localStorage.setItem('time_theme', currentTheme);
-            document.body.className = `${currentTheme} ${currentFont} ${currentMode}`;
+            updateBodyClasses();
             updateThemeChips();
         });
     });
@@ -339,21 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.stopPropagation();
             triggerHaptics();
             isNightMode = !isNightMode;
-            document.body.classList.toggle('night-mode', isNightMode);
-        });
-    }
-
-    // Control Drawer Open / Close Logic
-    clockContainer.addEventListener('click', (e) => {
-        if (e.target.closest('#night-mode-btn') || e.target.closest('#sound-tick-btn') || e.target.closest('#control-panel')) return;
-        controlPanel.classList.toggle('active');
-        triggerHaptics();
-    });
-
-    if (closePanelBtn) {
-        closePanelBtn.addEventListener('click', () => {
-            controlPanel.classList.remove('active');
-            triggerHaptics();
+            updateBodyClasses();
         });
     }
 
@@ -384,7 +417,6 @@ document.addEventListener('DOMContentLoaded', () => {
         function drawParticles() {
             if (!showParticles) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
 
             particles.forEach(p => {
                 ctx.beginPath();

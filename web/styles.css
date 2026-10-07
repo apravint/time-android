@@ -8,8 +8,8 @@
   --glow-color: rgba(0, 240, 255, 0.55);
   --accent-color: #ff007f;
   --subtext-color: rgba(255, 255, 255, 0.65);
-  --panel-bg: rgba(15, 20, 35, 0.88);
-  --panel-border: rgba(255, 255, 255, 0.15);
+  --panel-bg: rgba(15, 20, 35, 0.94);
+  --panel-border: rgba(255, 255, 255, 0.18);
   --glow-radius: 35px;
   --font-scale: 1;
 }
@@ -181,6 +181,7 @@ body.night-mode {
   align-items: center;
   padding: 2.2rem 2rem;
   z-index: 2;
+  cursor: pointer;
 }
 
 /* Top Status Header */
@@ -224,6 +225,13 @@ body.night-mode {
   cursor: pointer;
   font-size: 1.1rem;
   transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.icon-btn.highlight {
+  background: var(--text-color);
+  color: #000000;
+  border-color: var(--text-color);
+  box-shadow: 0 0 15px var(--glow-color);
 }
 
 .icon-btn:active {
@@ -374,15 +382,35 @@ body.night-mode {
 
 .hint-badge {
   background: rgba(255, 255, 255, 0.05);
-  padding: 0.3rem 0.8rem;
+  padding: 0.35rem 0.9rem;
   border-radius: 12px;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
+  border: 1px solid var(--panel-border);
+  cursor: pointer;
+}
+
+/* Backdrop Overlay for Control Panel */
+.panel-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 900;
+}
+
+.panel-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* Control Panel Drawer */
 .control-panel-drawer {
-  position: absolute;
-  bottom: -600px;
+  position: fixed;
+  bottom: -700px;
   left: 50%;
   transform: translateX(-50%);
   width: min(94%, 650px);
@@ -390,12 +418,12 @@ body.night-mode {
   overflow-y: auto;
   background: var(--panel-bg);
   border: 1px solid var(--panel-border);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
+  backdrop-filter: blur(35px);
+  -webkit-backdrop-filter: blur(35px);
   border-radius: 28px;
-  padding: 1.5rem;
-  z-index: 20;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+  padding: 1.6rem;
+  z-index: 1000;
+  box-shadow: 0 25px 70px rgba(0,0,0,0.8);
   transition: bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -417,11 +445,17 @@ body.night-mode {
 }
 
 .panel-close-btn {
-  background: none;
-  border: none;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid var(--panel-border);
   color: var(--subtext-color);
-  font-size: 1.3rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 1.1rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .panel-section {
@@ -444,10 +478,10 @@ body.night-mode {
 }
 
 .mode-chip, .font-chip, .theme-chip {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.07);
   border: 1px solid var(--panel-border);
   color: #ffffff;
-  padding: 0.5rem 0.9rem;
+  padding: 0.55rem 0.95rem;
   border-radius: 14px;
   font-size: 0.85rem;
   cursor: pointer;
@@ -462,6 +496,7 @@ body.night-mode {
   color: #000000;
   border-color: var(--text-color);
   font-weight: 800;
+  box-shadow: 0 0 15px var(--glow-color);
 }
 
 /* Swatches */

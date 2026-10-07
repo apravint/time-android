@@ -27,6 +27,7 @@
         <span class="battery-badge" id="battery-display">⚡ 100%</span>
         <button class="icon-btn" id="night-mode-btn" title="Night Dim Mode">🌙</button>
         <button class="icon-btn" id="sound-tick-btn" title="Synthesized Soft Tick">🔊</button>
+        <button class="icon-btn highlight" id="settings-btn" title="Time Customizer">⚙️</button>
       </div>
     </div>
 
@@ -65,9 +66,12 @@
     <!-- Bottom Secondary Info / World Timezone -->
     <div class="bottom-status-footer">
       <span class="location-badge" id="timezone-display">UTC • REAL-TIME CLOCK</span>
-      <span class="hint-badge">TAP ANYWHERE FOR SETTINGS</span>
+      <span class="hint-badge" id="hint-settings-trigger">⚙️ TAP FOR CUSTOMIZER</span>
     </div>
   </div>
+
+  <!-- Backdrop Overlay for Control Panel -->
+  <div class="panel-backdrop" id="panel-backdrop"></div>
 
   <!-- Bottom Floating Glassmorphic Control Panel -->
   <div class="control-panel-drawer" id="control-panel">
