@@ -1,12 +1,771 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="refresh" content="0; url=web/index.html">
-  <title>Time v2.0 — Fullscreen Clock App</title>
-  <script>window.location.replace("web/index.html");</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ChronoCraft — Sovereign Full-Screen Timepiece</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&display=swap');
+
+    :root {
+      --bg-color: #000000;
+      --surface-dark: #050505;
+      --surface-card: #0a0a0a;
+      --border-subtle: #222222;
+      --border-accent: #00E5FF;
+      --text-main: #FFFFFF;
+      --text-muted: #666666;
+      --accent-clock: #00E5FF;
+      --accent-countdown: #FFB000;
+      --accent-timer: #00FF66;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      border-radius: 0 !important; /* Strictly sharp brutalist edges */
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Fullscreen Immersion Mode (Hides header and footer on tap/idle) */
+    body.immersive .nav-bar,
+    body.immersive .status-header,
+    body.immersive .controls-row {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    /* Top Bar */
+    .status-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 24px 10px 24px;
+      border-bottom: 1px solid var(--border-subtle);
+      transition: opacity 0.3s ease;
+    }
+
+    .brand-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--text-main);
+    }
+
+    .status-chip {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      background: #111111;
+      border: 1px solid var(--border-subtle);
+      color: var(--accent-clock);
+    }
+
+    /* Main Viewport Container */
+    .viewport {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      position: relative;
+    }
+
+    .screen-mode {
+      display: none;
+      width: 100%;
+      max-width: 650px;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .screen-mode.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.99); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* ----------------------------------------------------
+       MODE 1: CLOCK DISPLAY
+    ----------------------------------------------------- */
+    .clock-frame {
+      width: 100%;
+      background: var(--surface-dark);
+      border: 2px solid var(--accent-clock);
+      padding: 30px 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+
+    .clock-date-chip {
+      display: inline-block;
+      background: #0f0f0f;
+      border: 1px solid #333;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #888888;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .clock-digits {
+      font-size: clamp(64px, 14vw, 120px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1;
+      color: #FFFFFF;
+      margin-bottom: 15px;
+    }
+
+    .clock-seconds-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #111111;
+      border: 1px solid #333333;
+      padding: 6px 18px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent-clock);
+      letter-spacing: 2px;
+    }
+
+    .clock-meridiem {
+      font-size: 14px;
+      color: #888888;
+      font-weight: 500;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .stat-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      padding: 14px;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 4px;
+      background: #222222;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent-clock);
+      width: 35%;
+      transition: width 0.5s ease;
+    }
+
+    /* ----------------------------------------------------
+       MODE 2: COUNTDOWN DISPLAY
+    ----------------------------------------------------- */
+    .countdown-header {
+      width: 100%;
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    .countdown-title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: #FFFFFF;
+      cursor: pointer;
+    }
+
+    .countdown-target-date {
+      font-size: 12px;
+      color: var(--accent-countdown);
+      margin-top: 4px;
+      letter-spacing: 1px;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+      margin-bottom: 18px;
+    }
+
+    .countdown-box {
+      background: var(--surface-card);
+      border: 1px solid #333333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 10px;
+    }
+
+    .countdown-box.highlight {
+      border: 2px solid var(--accent-countdown);
+    }
+
+    .countdown-box .val {
+      font-size: clamp(38px, 9vw, 56px);
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1;
+    }
+
+    .countdown-box .lbl {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-top: 8px;
+      color: var(--accent-countdown);
+    }
+
+    /* ----------------------------------------------------
+       MODE 3: FOCUS TIMER & STOPWATCH
+    ----------------------------------------------------- */
+    .timer-frame {
+      width: 100%;
+      background: var(--surface-dark);
+      border: 4px solid var(--border-subtle);
+      border-top: 4px solid var(--accent-timer);
+      border-right: 4px solid var(--accent-timer);
+      padding: 35px 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .timer-routine-label {
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      margin-bottom: 15px;
+    }
+
+    .timer-digits {
+      font-size: clamp(60px, 14vw, 96px);
+      font-weight: 800;
+      letter-spacing: -3px;
+      color: #FFFFFF;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .timer-subinfo {
+      font-size: 14px;
+      color: var(--accent-timer);
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    /* Presets Row */
+    .presets-row {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .preset-btn {
+      flex: 1;
+      padding: 10px 0;
+      background: #0f0f0f;
+      border: 1px solid #222222;
+      color: #888888;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .preset-btn.active {
+      border: 1px solid var(--accent-timer);
+      color: var(--accent-timer);
+      background: #141414;
+    }
+
+    /* Controls Buttons */
+    .controls-row {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+
+    .btn-main {
+      flex: 2;
+      background: var(--accent-timer);
+      color: #000000;
+      border: none;
+      padding: 18px 0;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      cursor: pointer;
+    }
+
+    .btn-main:active {
+      opacity: 0.8;
+    }
+
+    .btn-secondary {
+      flex: 1;
+      background: #111111;
+      color: #FFFFFF;
+      border: 1px solid #333333;
+      padding: 18px 0;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+    }
+
+    .btn-secondary:active {
+      background: #222222;
+    }
+
+    /* Bottom Navigation Bar */
+    .nav-bar {
+      display: flex;
+      width: 100%;
+      background: #080808;
+      border-top: 1px solid var(--border-subtle);
+      padding: 6px 12px 14px 12px;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-btn {
+      flex: 1;
+      padding: 14px 0;
+      background: transparent;
+      border: none;
+      color: #888888;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .nav-btn.active {
+      background: #FFFFFF;
+      color: #000000;
+    }
+
+    /* Landscape Adaptation */
+    @media (orientation: landscape) and (max-height: 500px) {
+      body {
+        padding: 0;
+      }
+      .status-header {
+        padding: 8px 24px;
+      }
+      .viewport {
+        padding: 8px 24px;
+      }
+      .clock-frame {
+        padding: 12px;
+        margin-bottom: 8px;
+      }
+      .clock-digits {
+        font-size: clamp(48px, 16vw, 92px);
+      }
+      .stats-grid {
+        display: none;
+      }
+      .nav-bar {
+        padding: 4px 12px;
+      }
+      .nav-btn {
+        padding: 8px 0;
+      }
+    }
+  </style>
 </head>
-<body style="background:#070913; color:#00f0ff; font-family:sans-serif; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;">
-  <p>Launching <a href="web/index.html" style="color:#00f0ff; text-decoration:none; font-weight:bold;">Time v2.0 Live Web Edition</a>...</p>
+<body>
+
+  <!-- Top Status Header -->
+  <header class="status-header">
+    <div class="brand-title">CHRONOCRAFT</div>
+    <div class="status-chip" id="topStatusChip">● CLOCK MODE</div>
+  </header>
+
+  <!-- Main Viewport -->
+  <main class="viewport" id="viewport">
+
+    <!-- 1. CLOCK VIEW -->
+    <section class="screen-mode active" id="view-clock">
+      <div class="clock-date-chip" id="currentDateChip">WEDNESDAY • OCT 21, 2026</div>
+      
+      <div class="clock-frame" onclick="toggleSecondsFormat()">
+        <div class="clock-digits" id="clockDigits">08:18</div>
+        <div class="clock-seconds-badge">
+          <span id="clockSeconds">: 00</span>
+          <span class="clock-meridiem" id="clockMeridiem">AM</span>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">DAY PROGRESS</div>
+          <div class="stat-value" id="dayPercentValue">34.6%</div>
+          <div class="progress-track">
+            <div class="progress-fill" id="dayProgressBar"></div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">LOCAL ZONE</div>
+          <div class="stat-value" id="tzDisplay">IST</div>
+          <div style="font-size: 10px; color: #666;" id="tzOffset">UTC+05:30</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. COUNTDOWN VIEW -->
+    <section class="screen-mode" id="view-countdown">
+      <div class="countdown-header">
+        <div class="countdown-title" id="eventTitle" onclick="editEventTitle()">NEW PRODUCT LAUNCH ✎</div>
+        <div class="countdown-target-date" id="eventDateDisplay">TARGET: NOV 15, 2026 • 09:00 AM</div>
+      </div>
+
+      <div class="countdown-grid">
+        <div class="countdown-box highlight">
+          <div class="val" id="cdDays">00</div>
+          <div class="lbl">DAYS</div>
+        </div>
+        <div class="countdown-box">
+          <div class="val" id="cdHours">00</div>
+          <div class="lbl">HOURS</div>
+        </div>
+        <div class="countdown-box">
+          <div class="val" id="cdMinutes">00</div>
+          <div class="lbl">MINUTES</div>
+        </div>
+        <div class="countdown-box highlight">
+          <div class="val" id="cdSeconds">00</div>
+          <div class="lbl">SECONDS</div>
+        </div>
+      </div>
+
+      <div class="controls-row">
+        <button class="btn-main" style="background: var(--accent-countdown);" onclick="setQuickCountdownDays(7)">+7 DAYS</button>
+        <button class="btn-main" style="background: #222; color: #fff;" onclick="setQuickCountdownDays(30)">+30 DAYS</button>
+        <button class="btn-secondary" onclick="pickCustomEventDate()">SET DATE</button>
+      </div>
+    </section>
+
+    <!-- 3. FOCUS TIMER VIEW -->
+    <section class="screen-mode" id="view-timer">
+      <div class="presets-row">
+        <button class="preset-btn active" onclick="setTimerDuration(25, 'POMODORO FOCUS', this)">25 MIN</button>
+        <button class="preset-btn" onclick="setTimerDuration(5, 'SHORT BREAK', this)">5 MIN</button>
+        <button class="preset-btn" onclick="setTimerDuration(45, 'DEEP WORK', this)">45 MIN</button>
+        <button class="preset-btn" onclick="setTimerDuration(20, 'POWER NAP', this)">20 MIN</button>
+      </div>
+
+      <div class="timer-frame">
+        <div class="timer-routine-label" id="timerLabel">DEEP WORK SESSION</div>
+        <div class="timer-digits" id="timerDigits">25:00</div>
+        <div class="timer-subinfo" id="timerPercentRemaining">100% REMAINING</div>
+      </div>
+
+      <div class="controls-row">
+        <button class="btn-main" id="btnTimerToggle" onclick="toggleTimer()">▶ START</button>
+        <button class="btn-secondary" onclick="resetTimer()">RESET</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="nav-bar">
+    <button class="nav-btn active" id="nav-clock" onclick="switchMode('clock')">CLOCK</button>
+    <button class="nav-btn" id="nav-countdown" onclick="switchMode('countdown')">COUNTDOWN</button>
+    <button class="nav-btn" id="nav-timer" onclick="switchMode('timer')">TIMER</button>
+  </nav>
+
+  <script>
+    // State
+    let activeMode = 'clock';
+    let is24Hour = false;
+    let targetCountdownDate = new Date(Date.now() + 25 * 86400000 + 14 * 3600000); // 25 days ahead
+    
+    // Timer State
+    let timerTotalSeconds = 25 * 60;
+    let timerRemainingSeconds = timerTotalSeconds;
+    let timerInterval = null;
+    let isTimerRunning = false;
+
+    // Web Audio Bell Sound Generator
+    function playBeep(freq = 880, duration = 0.25) {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    // 1. CLOCK TICKER
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      let meridiem = '';
+
+      if (!is24Hour) {
+        meridiem = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+      }
+      const hourStr = String(hours).padStart(2, '0');
+
+      document.getElementById('clockDigits').innerText = `${hourStr}:${minutes}`;
+      document.getElementById('clockSeconds').innerText = `: ${seconds}`;
+      document.getElementById('clockMeridiem').innerText = is24Hour ? '' : meridiem;
+
+      // Date Chip
+      const options = { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' };
+      document.getElementById('currentDateChip').innerText = now.toLocaleDateString('en-US', options).toUpperCase();
+
+      // Day % Elapsed
+      const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+      const daySeconds = (now.getTime() - midnight) / 1000;
+      const dayPct = ((daySeconds / 86400) * 100).toFixed(1);
+      document.getElementById('dayPercentValue').innerText = `${dayPct}%`;
+      document.getElementById('dayProgressBar').style.width = `${dayPct}%`;
+
+      // Timezone
+      document.getElementById('tzDisplay').innerText = Intl.DateTimeFormat().resolvedOptions().timeZone.split('/')[1] || 'LOCAL';
+    }
+
+    function toggleSecondsFormat() {
+      is24Hour = !is24Hour;
+      updateClock();
+    }
+
+    // 2. COUNTDOWN TICKER
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const diff = targetCountdownDate.getTime() - now;
+
+      if (diff <= 0) {
+        document.getElementById('cdDays').innerText = "00";
+        document.getElementById('cdHours').innerText = "00";
+        document.getElementById('cdMinutes').innerText = "00";
+        document.getElementById('cdSeconds').innerText = "00";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('cdDays').innerText = String(days).padStart(2, '0');
+      document.getElementById('cdHours').innerText = String(hours).padStart(2, '0');
+      document.getElementById('cdMinutes').innerText = String(minutes).padStart(2, '0');
+      document.getElementById('cdSeconds').innerText = String(seconds).padStart(2, '0');
+    }
+
+    function editEventTitle() {
+      const name = prompt("Enter Target Event Title:", document.getElementById('eventTitle').innerText.replace(' ✎', ''));
+      if (name && name.trim()) {
+        document.getElementById('eventTitle').innerText = name.toUpperCase() + ' ✎';
+      }
+    }
+
+    function setQuickCountdownDays(d) {
+      targetCountdownDate = new Date(Date.now() + d * 86400000);
+      document.getElementById('eventDateDisplay').innerText = `TARGET: ${targetCountdownDate.toDateString().toUpperCase()}`;
+      updateCountdown();
+    }
+
+    function pickCustomEventDate() {
+      const dateStr = prompt("Enter Target Date (YYYY-MM-DD):", targetCountdownDate.toISOString().slice(0, 10));
+      if (dateStr) {
+        const parsed = new Date(dateStr);
+        if (!isNaN(parsed.getTime())) {
+          targetCountdownDate = parsed;
+          document.getElementById('eventDateDisplay').innerText = `TARGET: ${targetCountdownDate.toDateString().toUpperCase()}`;
+          updateCountdown();
+        }
+      }
+    }
+
+    // 3. TIMER SYSTEM
+    function formatTimerTime(secs) {
+      const m = Math.floor(secs / 60);
+      const s = secs % 60;
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function renderTimer() {
+      document.getElementById('timerDigits').innerText = formatTimerTime(timerRemainingSeconds);
+      const pct = Math.round((timerRemainingSeconds / timerTotalSeconds) * 100);
+      document.getElementById('timerPercentRemaining').innerText = `${pct}% REMAINING • ${Math.round(timerTotalSeconds / 60)} MIN TOTAL`;
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById('btnTimerToggle');
+      if (isTimerRunning) {
+        clearInterval(timerInterval);
+        isTimerRunning = false;
+        btn.innerText = '▶ RESUME';
+        btn.style.background = 'var(--accent-timer)';
+      } else {
+        isTimerRunning = true;
+        btn.innerText = '❚❚ PAUSE';
+        btn.style.background = '#FFB000';
+        playBeep(440, 0.1);
+
+        timerInterval = setInterval(() => {
+          if (timerRemainingSeconds > 0) {
+            timerRemainingSeconds--;
+            renderTimer();
+          } else {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            btn.innerText = '▶ START';
+            btn.style.background = 'var(--accent-timer)';
+            // Alarm chime
+            playBeep(880, 0.4);
+            setTimeout(() => playBeep(1174, 0.6), 400);
+          }
+        }, 1000);
+      }
+    }
+
+    function resetTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      isTimerRunning = false;
+      timerRemainingSeconds = timerTotalSeconds;
+      document.getElementById('btnTimerToggle').innerText = '▶ START';
+      document.getElementById('btnTimerToggle').style.background = 'var(--accent-timer)';
+      renderTimer();
+    }
+
+    function setTimerDuration(mins, label, element) {
+      resetTimer();
+      timerTotalSeconds = mins * 60;
+      timerRemainingSeconds = timerTotalSeconds;
+      document.getElementById('timerLabel').innerText = label;
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      if (element) element.classList.add('active');
+      renderTimer();
+    }
+
+    // 4. MODE SWITCHING
+    function switchMode(mode) {
+      activeMode = mode;
+      document.querySelectorAll('.screen-mode').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+      document.getElementById(`view-${mode}`).classList.add('active');
+      document.getElementById(`nav-${mode}`).classList.add('active');
+
+      const status = document.getElementById('topStatusChip');
+      if (mode === 'clock') {
+        status.innerText = '● CLOCK MODE';
+        status.style.color = 'var(--accent-clock)';
+      } else if (mode === 'countdown') {
+        status.innerText = '● COUNTDOWN MODE';
+        status.style.color = 'var(--accent-countdown)';
+      } else if (mode === 'timer') {
+        status.innerText = '● FOCUS TIMER';
+        status.style.color = 'var(--accent-timer)';
+      }
+    }
+
+    // 5. IMMERSION / FULLSCREEN TAP TOGGLE
+    document.getElementById('viewport').addEventListener('click', (e) => {
+      // Don't toggle immersion if user clicked a button or interactive chip
+      if (['BUTTON', 'SPAN', 'INPUT'].includes(e.target.tagName)) return;
+      document.body.classList.toggle('immersive');
+    });
+
+    // Keyboard Shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '1') switchMode('clock');
+      if (e.key === '2') switchMode('countdown');
+      if (e.key === '3') switchMode('timer');
+      if (e.key === ' ') {
+        e.preventDefault();
+        if (activeMode === 'timer') toggleTimer();
+      }
+      if (e.key.toLowerCase() === 'f') {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+    });
+
+    // Startup
+    setInterval(updateClock, 1000);
+    setInterval(updateCountdown, 1000);
+    updateClock();
+    updateCountdown();
+    renderTimer();
+  </script>
 </body>
 </html>

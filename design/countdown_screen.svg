@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 915" width="412" height="915">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500;700;800&amp;display=swap');
+      .mono-heavy { font-family: 'JetBrains Mono', monospace; font-weight: 800; }
+      .mono-med { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+      .mono-light { font-family: 'JetBrains Mono', monospace; font-weight: 300; }
+    </style>
+  </defs>
+
+  <!-- Screen Frame: OLED Pure Black -->
+  <rect width="412" height="915" fill="#000000" />
+
+  <!-- Top Bar -->
+  <g id="status-bar" opacity="0.6">
+    <text x="32" y="38" fill="#FFFFFF" class="mono-med" font-size="12" letter-spacing="1">CHRONOCRAFT</text>
+    <text x="380" y="38" fill="#FFB000" class="mono-heavy" font-size="11" text-anchor="end">● COUNTDOWN</text>
+  </g>
+
+  <line x1="24" y1="56" x2="388" y2="56" stroke="#222222" stroke-width="1" />
+  <line x1="24" y1="810" x2="388" y2="810" stroke="#222222" stroke-width="1" />
+
+  <!-- Target Event Header -->
+  <g id="event-header" transform="translate(24, 120)">
+    <text x="0" y="24" fill="#666666" class="mono-med" font-size="11" letter-spacing="2">COUNTDOWN TARGET</text>
+    <text x="0" y="60" fill="#FFFFFF" class="mono-heavy" font-size="28" letter-spacing="-1">NEW PRODUCT LAUNCH</text>
+    <text x="0" y="85" fill="#FFB000" class="mono-med" font-size="13">NOVEMBER 15, 2026  •  09:00 AM</text>
+  </g>
+
+  <!-- 4-Box Split Countdown Grid (Sharp Brutalist Boxes) -->
+  <g id="countdown-grid" transform="translate(24, 235)">
+    <!-- Box 1: DAYS -->
+    <g transform="translate(0, 0)">
+      <rect width="174" height="135" fill="#0A0A0A" stroke="#FFB000" stroke-width="2" />
+      <text x="87" y="75" fill="#FFFFFF" class="mono-heavy" font-size="52" text-anchor="middle">25</text>
+      <rect x="0" y="105" width="174" height="30" fill="#141414" />
+      <text x="87" y="125" fill="#FFB000" class="mono-heavy" font-size="11" text-anchor="middle" letter-spacing="2">DAYS</text>
+    </g>
+
+    <!-- Box 2: HOURS -->
+    <g transform="translate(190, 0)">
+      <rect width="174" height="135" fill="#0A0A0A" stroke="#333333" stroke-width="1" />
+      <text x="87" y="75" fill="#FFFFFF" class="mono-heavy" font-size="52" text-anchor="middle">14</text>
+      <rect x="0" y="105" width="174" height="30" fill="#141414" />
+      <text x="87" y="125" fill="#888888" class="mono-heavy" font-size="11" text-anchor="middle" letter-spacing="2">HOURS</text>
+    </g>
+
+    <!-- Box 3: MINUTES -->
+    <g transform="translate(0, 155)">
+      <rect width="174" height="135" fill="#0A0A0A" stroke="#333333" stroke-width="1" />
+      <text x="87" y="75" fill="#FFFFFF" class="mono-heavy" font-size="52" text-anchor="middle">38</text>
+      <rect x="0" y="105" width="174" height="30" fill="#141414" />
+      <text x="87" y="125" fill="#888888" class="mono-heavy" font-size="11" text-anchor="middle" letter-spacing="2">MINUTES</text>
+    </g>
+
+    <!-- Box 4: SECONDS -->
+    <g transform="translate(190, 155)">
+      <rect width="174" height="135" fill="#0A0A0A" stroke="#333333" stroke-width="1" />
+      <text x="87" y="75" fill="#FFB000" class="mono-heavy" font-size="52" text-anchor="middle">42</text>
+      <rect x="0" y="105" width="174" height="30" fill="#141414" />
+      <text x="87" y="125" fill="#FFB000" class="mono-heavy" font-size="11" text-anchor="middle" letter-spacing="2">SECONDS</text>
+    </g>
+  </g>
+
+  <!-- Progress Bar (Total Horizon Completion) -->
+  <g id="progress-container" transform="translate(24, 550)">
+    <div style="display:flex;">
+      <text x="0" y="0" fill="#666666" class="mono-med" font-size="11" letter-spacing="1">TOTAL TIME ELAPSED</text>
+      <text x="364" y="0" fill="#FFB000" class="mono-heavy" font-size="11" text-anchor="end">68% COMPLETE</text>
+    </div>
+    <rect x="0" y="12" width="364" height="8" fill="#1A1A1A" />
+    <rect x="0" y="12" width="247" height="8" fill="#FFB000" />
+    <text x="0" y="38" fill="#444444" class="mono-light" font-size="10">Started 60 days ago  •  614 hours remaining</text>
+  </g>
+
+  <!-- Quick Event Presets -->
+  <g id="event-presets" transform="translate(24, 630)">
+    <text x="0" y="0" fill="#666666" class="mono-med" font-size="10" letter-spacing="1">QUICK SWITCH</text>
+    
+    <g transform="translate(0, 15)">
+      <rect width="114" height="44" fill="#111111" stroke="#FFB000" stroke-width="1" />
+      <text x="57" y="27" fill="#FFFFFF" class="mono-med" font-size="11" text-anchor="middle">LAUNCH</text>
+
+      <rect x="125" y="0" width="114" height="44" fill="#0A0A0A" stroke="#222222" stroke-width="1" />
+      <text x="182" y="27" fill="#888888" class="mono-med" font-size="11" text-anchor="middle">NEW YEAR</text>
+
+      <rect x="250" y="0" width="114" height="44" fill="#0A0A0A" stroke="#222222" stroke-width="1" />
+      <text x="307" y="27" fill="#888888" class="mono-med" font-size="11" text-anchor="middle">+ NEW EVENT</text>
+    </g>
+  </g>
+
+  <!-- Bottom Mode Switcher Pill -->
+  <g id="mode-nav-bar" transform="translate(24, 830)">
+    <rect width="364" height="54" fill="#080808" stroke="#333333" stroke-width="1" />
+    
+    <!-- Inactive: CLOCK -->
+    <text x="62" y="32" fill="#888888" class="mono-heavy" font-size="12" text-anchor="middle" letter-spacing="1">
+      CLOCK
+    </text>
+
+    <!-- Active Pill: COUNTDOWN -->
+    <rect x="124" y="4" width="116" height="46" fill="#FFB000" />
+    <text x="182" y="32" fill="#000000" class="mono-heavy" font-size="12" text-anchor="middle" letter-spacing="1">
+      COUNTDOWN
+    </text>
+
+    <!-- Inactive: TIMER -->
+    <text x="302" y="32" fill="#888888" class="mono-heavy" font-size="12" text-anchor="middle" letter-spacing="1">
+      TIMER
+    </text>
+  </g>
+</svg>

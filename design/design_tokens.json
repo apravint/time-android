@@ -1,0 +1,62 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "name": "ChronoCraft Design Tokens",
+  "version": "1.0.0",
+  "style": "Sharp Brutalist OLED",
+  "geometry": {
+    "border_radius": "0px",
+    "border_width_thin": "1px",
+    "border_width_medium": "2px",
+    "border_width_thick": "6px"
+  },
+  "color": {
+    "background": {
+      "oled_black": "#000000",
+      "surface_dark": "#050505",
+      "surface_card": "#0A0A0A",
+      "surface_elevated": "#141414",
+      "border_subtle": "#222222",
+      "border_default": "#333333"
+    },
+    "accents": {
+      "clock_cyan": "#00E5FF",
+      "countdown_amber": "#FFB000",
+      "timer_green": "#00FF66",
+      "danger_red": "#FF3366",
+      "monochrome_white": "#FFFFFF",
+      "text_secondary": "#888888",
+      "text_muted": "#444444"
+    }
+  },
+  "typography": {
+    "font_family_primary": "JetBrains Mono, Space Mono, monospace",
+    "sizes": {
+      "time_display_hero": "92px",
+      "time_display_landscape": "130px",
+      "timer_display": "82px",
+      "countdown_box_value": "52px",
+      "title_large": "28px",
+      "badge_medium": "16px",
+      "label_standard": "12px",
+      "label_micro": "10px"
+    },
+    "weights": {
+      "light": 300,
+      "medium": 500,
+      "bold": 700,
+      "heavy": 800
+    }
+  },
+  "viewports": {
+    "portrait_mobile": {
+      "width": 412,
+      "height": 915,
+      "device": "Android Pixel / Modern Smartphone"
+    },
+    "landscape_desk": {
+      "width": 915,
+      "height": 412,
+      "device": "Horizontal Desk Stand / Bedside Dock"
+    }
+  }
+}

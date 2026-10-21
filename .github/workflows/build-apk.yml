@@ -1,8 +1,9 @@
-name: Build Time APK
+name: Build & Release Time Android APK
 
 on:
   push:
     branches: [ main, master ]
+    tags: [ 'v*' ]
   pull_request:
     branches: [ main, master ]
   workflow_dispatch:
@@ -11,8 +12,10 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  build-apk:
+    name: Build Flutter Android APK
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -22,94 +25,55 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: 'gradle'
 
-      - name: Accept Android SDK Licenses
+      - name: Set up Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+
+      - name: Verify Flutter Installation
+        run: flutter doctor -v
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run code analyzer
+        run: flutter analyze
+
+      - name: Run test suite
+        run: flutter test
+
+      - name: Build Universal Release APK
+        run: flutter build apk --release
+
+      - name: Build Split-per-ABI Release APKs
+        run: flutter build apk --release --split-per-abi
+
+      - name: Rename & Organize APK Artifacts
         run: |
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" || true
-
-      - name: Build Unsigned APK
-        run: |
-          mkdir -p build/gen build/obj build/bin assets/web
-          cp -r web/* assets/
-          cp -r web/* assets/web/
-          export ANDROID_JAR=$ANDROID_HOME/platforms/android-34/android.jar
-          
-          echo "=== 1. Compiling Android Resources ==="
-          $ANDROID_HOME/build-tools/34.0.0/aapt package -f -m \
-            -J build/gen \
-            -M android/app/src/main/AndroidManifest.xml \
-            -S android/app/src/main/res \
-            -I $ANDROID_JAR
-          
-          echo "=== 2. Compiling Java Source Files ==="
-          find android/app/src/main/java build/gen -name "*.java" > sources.txt
-          javac -d build/obj \
-            -classpath $ANDROID_JAR \
-            -source 1.8 -target 1.8 \
-            @sources.txt
-          
-          echo "=== 3. Converting Bytecode to DEX ==="
-          find build/obj -name "*.class" > classes.txt
-          $ANDROID_HOME/build-tools/34.0.0/d8 \
-            --output build/bin/ \
-            --lib $ANDROID_JAR \
-            $(cat classes.txt)
-          
-          echo "=== 4. Packaging Unaligned APK ==="
-          $ANDROID_HOME/build-tools/34.0.0/aapt package -f \
-            -M android/app/src/main/AndroidManifest.xml \
-            -S android/app/src/main/res \
-            -A assets \
-            -I $ANDROID_JAR \
-            -F build/bin/unaligned.apk build/bin/
-
-      - name: ZipAlign & Sign APK
-        run: |
-          echo "=== 1. ZipAligning APK to 4-byte boundary ==="
-          $ANDROID_HOME/build-tools/34.0.0/zipalign -v 4 build/bin/unaligned.apk build/bin/aligned.apk
-
-          echo "=== 2. Creating Keystore ==="
-          keytool -genkey -v -keystore release.keystore \
-            -alias time \
-            -keyalg RSA -keysize 2048 -validity 10000 \
-            -storepass android -keypass android \
-            -dname "CN=AyyappaPravin, OU=Dev, O=Time, L=City, S=State, C=US"
-          
-          echo "=== 3. Signing APK with V1/V2/V3 schemes ==="
-          $ANDROID_HOME/build-tools/34.0.0/apksigner sign \
-            --ks release.keystore \
-            --ks-pass pass:android \
-            --key-pass pass:android \
-            --v1-signing-enabled true \
-            --v2-signing-enabled true \
-            --v3-signing-enabled true \
-            --out Time.apk \
-            build/bin/aligned.apk
-          
-          echo "=== 4. Verifying Signed APK ==="
-          $ANDROID_HOME/build-tools/34.0.0/apksigner verify --verbose Time.apk
+          mkdir -p dist/
+          cp build/app/outputs/flutter-apk/app-release.apk dist/Time-Universal-v${{ github.ref_name }}.apk 2>/dev/null || cp build/app/outputs/flutter-apk/app-release.apk dist/Time-Universal-latest.apk
+          cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk dist/Time-arm64-v8a.apk 2>/dev/null || true
+          cp build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk dist/Time-armeabi-v7a.apk 2>/dev/null || true
+          ls -lh dist/
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Time-APK
-          path: Time.apk
+          name: Time-Android-APK
+          path: dist/*.apk
+          retention-days: 30
 
-      - name: Release APK
+      - name: Publish to GitHub Releases (On Version Tag)
+        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'release'
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
         with:
-          tag_name: "v2.0.0"
-          files: Time.apk
-          name: "Time v2.0.0"
-          body: |
-            ## ⏰ Time - Fullscreen Top-Notch Digital, Analog & Word Clock App v2.0.0
-            
-            Developed by **Ayyappa Pravin** (<apravint@gmail.com>)
-            
-            - **14 Top-Notch Custom Google Fonts**: Orbitron, Audiowide, Bungee 3D, Cyber Terminal (Share Tech Mono), Outfit, JetBrains Mono, Syne Bold, Monoton, Comfortaa, Abril Fatface, Space Grotesk, Cinzel, Playfair Display, and 8-Bit Arcade 2P.
-            - **10 Dynamic Themes & Glow Palettes**: Cyber Neon, Sunset Cyberpunk, Vaporwave 80s, Tokyo Night, Aurora Borealis, OLED Stealth, Luxury Gold, Emerald Matrix, Crimson Red, and Nord Frost.
-            - **3 Clock Display Modes**: Digital Clock, Glowing Analog Clock Face, and Minimalist Text Word Clock.
-            - **Interactive Ambient Canvas & Sliders**: Starfield ambient particle background engine, custom text size slider, and neon glow intensity adjuster.
-            - **Immersive Fullscreen & Audio Tick**: Sticky system UI, screen wake-lock, night mode dimming, and web audio synthesized soft tick sound.
+          files: dist/*.apk
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
