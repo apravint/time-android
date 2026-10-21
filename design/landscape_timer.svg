@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 915 412" width="915" height="412">
+  <defs>
+    <filter id="green-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="glow" />
+      <feMerge>
+        <feMergeNode in="glow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800&amp;display=swap');
+      .giant-timer { font-family: 'JetBrains Mono', monospace; font-size: 210px; font-weight: 800; }
+      .timer-label { font-family: monospace; font-size: 15px; font-weight: 800; letter-spacing: 6px; }
+    </style>
+  </defs>
+
+  <rect width="915" height="412" fill="#000F04" />
+
+  <g id="pure-timer" transform="translate(457.5, 260)" text-anchor="middle">
+    <text x="0" y="-170" fill="#00FF66" class="timer-label">
+      FOCUS SESSION • POMODORO (TAP TO PAUSE)
+    </text>
+
+    <text x="0" y="0" fill="#00FF66" class="giant-timer" letter-spacing="-2" filter="url(#green-glow)">
+      24:18
+    </text>
+
+    <!-- Progress Horizon -->
+    <rect x="-360" y="45" width="720" height="4" fill="#051C0A" />
+    <rect x="-360" y="45" width="540" height="4" fill="#00FF66" />
+  </g>
+</svg>

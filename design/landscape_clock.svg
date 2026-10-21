@@ -1,75 +1,35 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 915 412" width="915" height="412">
   <defs>
+    <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="glow" />
+      <feMerge>
+        <feMergeNode in="glow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500;700;800&amp;display=swap');
-      .mono-heavy { font-family: 'JetBrains Mono', monospace; font-weight: 800; }
-      .mono-med { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
-      .mono-light { font-family: 'JetBrains Mono', monospace; font-weight: 300; }
+      @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;display=swap');
+      .giant-num { font-family: 'Bebas Neue', sans-serif; font-size: 260px; font-weight: 900; }
+      .sub-date { font-family: monospace; font-size: 16px; font-weight: 700; letter-spacing: 6px; }
     </style>
   </defs>
 
-  <!-- OLED Pure Black Screen -->
+  <!-- Deep OLED Black Canvas -->
   <rect width="915" height="412" fill="#000000" />
 
-  <!-- Top Subtle Brand & Mode Indicator -->
-  <g id="top-bar" opacity="0.5">
-    <text x="32" y="32" fill="#FFFFFF" class="mono-med" font-size="11" letter-spacing="1">CHRONOCRAFT DESK CLOCK</text>
-    <text x="883" y="32" fill="#00E5FF" class="mono-heavy" font-size="11" text-anchor="end">● AMBIENT STAND</text>
-  </g>
-
-  <!-- Divider Line -->
-  <line x1="32" y1="46" x2="883" y2="46" stroke="#222222" stroke-width="1" />
-
-  <!-- Main Split Layout (60% Time Display, 40% Focus & Environmental Stats) -->
-  
-  <!-- Left Side: Massive Monospace Time Display -->
-  <g id="main-time" transform="translate(32, 70)">
-    <rect width="520" height="290" fill="#050505" stroke="#00E5FF" stroke-width="2" />
-    
-    <!-- Time: Hours & Minutes -->
-    <text x="260" y="165" fill="#FFFFFF" class="mono-heavy" font-size="130" text-anchor="middle" letter-spacing="-4">
-      08:17
+  <!-- Pure Fullscreen Giant Digits (Centered, Edge-to-Edge) -->
+  <g id="pure-clock" transform="translate(457.5, 275)" text-anchor="middle">
+    <!-- Neon Glow Layer -->
+    <text x="0" y="0" fill="#00F0FF" class="giant-num" letter-spacing="4" filter="url(#neon-glow)">
+      10:45<tspan fill="#FF0055" font-size="110" dy="-90">:32</tspan>
     </text>
 
-    <!-- Seconds Bar and Meridian -->
-    <g transform="translate(260, 235)">
-      <rect x="-100" y="-22" width="200" height="38" fill="#111111" stroke="#333333" stroke-width="1" />
-      <text x="0" y="4" fill="#00E5FF" class="mono-heavy" font-size="22" text-anchor="middle" letter-spacing="4">
-        : 58 <tspan fill="#888888" font-size="15">AM</tspan>
-      </text>
-    </g>
+    <!-- Day % Horizon Line -->
+    <rect x="-350" y="55" width="700" height="3" fill="#1A1A24" />
+    <rect x="-350" y="55" width="315" height="3" fill="#00F0FF" />
 
-    <!-- Sub-info -->
-    <text x="260" y="278" fill="#444444" class="mono-med" font-size="11" text-anchor="middle" letter-spacing="2">
-      WEDNESDAY, OCTOBER 21, 2026  •  DAY 294
+    <text x="0" y="85" fill="#58A6FF" class="sub-date">
+      WEDNESDAY • OCT 21, 2026
     </text>
-  </g>
-
-  <!-- Right Side: Secondary Telemetry & Countdown Widget -->
-  <g id="side-telemetry" transform="translate(572, 70)">
-    <!-- Widget 1: Focus Countdown -->
-    <g transform="translate(0, 0)">
-      <rect width="311" height="135" fill="#0A0A0A" stroke="#222222" stroke-width="1" />
-      <text x="20" y="30" fill="#888888" class="mono-med" font-size="11" letter-spacing="1">CURRENT FOCUS TARGET</text>
-      <text x="20" y="65" fill="#FFFFFF" class="mono-heavy" font-size="28">DEEP WORK</text>
-      <text x="20" y="95" fill="#00FF66" class="mono-heavy" font-size="22">00:38:12</text>
-      <rect x="20" y="112" width="271" height="4" fill="#222222" />
-      <rect x="20" y="112" width="180" height="4" fill="#00FF66" />
-    </g>
-
-    <!-- Widget 2: Environmental & Audio Sync -->
-    <g transform="translate(0, 155)">
-      <rect width="311" height="135" fill="#0A0A0A" stroke="#222222" stroke-width="1" />
-      <text x="20" y="30" fill="#888888" class="mono-med" font-size="11" letter-spacing="1">DESK AMBIENCE</text>
-      <text x="20" y="62" fill="#FFFFFF" class="mono-heavy" font-size="20">24°C  •  OLED 20%</text>
-      <text x="20" y="90" fill="#AAAAAA" class="mono-med" font-size="12">AUDIO: PipeWire Studio 48kHz</text>
-      <text x="20" y="115" fill="#00E5FF" class="mono-med" font-size="11">TAP SCREEN TO HIDE CONTROLS</text>
-    </g>
-  </g>
-
-  <!-- Bottom Floating Subtle Mode Switcher -->
-  <g id="bottom-bar" transform="translate(32, 380)">
-    <text x="0" y="16" fill="#444444" class="mono-med" font-size="10">KRONOS v1.0 • SWIPE LEFT/RIGHT FOR MODES</text>
-    <text x="851" y="16" fill="#444444" class="mono-med" font-size="10" text-anchor="end">DOUBLE-TAP FOR SETTINGS</text>
   </g>
 </svg>

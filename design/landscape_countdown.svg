@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 915 412" width="915" height="412">
+  <defs>
+    <filter id="amber-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="glow" />
+      <feMerge>
+        <feMergeNode in="glow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&amp;display=swap');
+      .orbitron-heavy { font-family: 'Orbitron', monospace; font-size: 110px; font-weight: 900; }
+      .label-text { font-family: monospace; font-size: 14px; font-weight: 800; letter-spacing: 4px; }
+    </style>
+  </defs>
+
+  <rect width="915" height="412" fill="#070500" />
+
+  <g id="pure-countdown" transform="translate(457.5, 75)" text-anchor="middle">
+    <text x="0" y="0" fill="#FFB000" class="label-text">
+      PROJECT LAUNCH HORIZON
+    </text>
+  </g>
+
+  <!-- 4-Box Split Across Landscape -->
+  <g transform="translate(67.5, 140)">
+    <!-- Days -->
+    <g transform="translate(0, 0)">
+      <text x="75" y="100" fill="#FFB000" class="orbitron-heavy" text-anchor="middle" filter="url(#amber-glow)">07</text>
+      <text x="75" y="140" fill="#FF5500" class="label-text" text-anchor="middle">DAYS</text>
+    </g>
+    <text x="175" y="90" fill="#FF5500" font-size="60" text-anchor="middle" font-family="monospace">:</text>
+
+    <!-- Hours -->
+    <g transform="translate(200, 0)">
+      <text x="75" y="100" fill="#FFB000" class="orbitron-heavy" text-anchor="middle" filter="url(#amber-glow)">14</text>
+      <text x="75" y="140" fill="#FF5500" class="label-text" text-anchor="middle">HOURS</text>
+    </g>
+    <text x="375" y="90" fill="#FF5500" font-size="60" text-anchor="middle" font-family="monospace">:</text>
+
+    <!-- Minutes -->
+    <g transform="translate(400, 0)">
+      <text x="75" y="100" fill="#FFB000" class="orbitron-heavy" text-anchor="middle" filter="url(#amber-glow)">28</text>
+      <text x="75" y="140" fill="#FF5500" class="label-text" text-anchor="middle">MINUTES</text>
+    </g>
+    <text x="575" y="90" fill="#FF5500" font-size="60" text-anchor="middle" font-family="monospace">:</text>
+
+    <!-- Seconds -->
+    <g transform="translate(600, 0)">
+      <text x="75" y="100" fill="#FFB000" class="orbitron-heavy" text-anchor="middle" filter="url(#amber-glow)">55</text>
+      <text x="75" y="140" fill="#FF5500" class="label-text" text-anchor="middle">SECONDS</text>
+    </g>
+  </g>
+</svg>
