@@ -1,10 +1,14 @@
-# ⏰ Time - Fullscreen Digital, Analog & Word Clock App (`v2.0.0`)
+# ⏰ Time - Fullscreen Digital, Analog & Word Clock App (`v2.1.0`)
 
 [![GitHub Release](https://img.shields.io/github/v/release/apravint/time-android?color=magenta&label=Latest%20Release)](https://github.com/apravint/time-android/releases/tag/v2.0.0)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-00F0FF?style=flat&logo=github)](https://apravint.github.io/time-android/)
+[![Target SDK](https://img.shields.io/badge/Target%20SDK-35%20(Android%2015)-green.svg)](https://developer.android.com/about/versions/15)
+[![Edge-to-Edge](https://img.shields.io/badge/Display-Edge--to--Edge%20Compliant-purple.svg)](https://developer.android.com/develop/ui/views/layout/edge-to-edge)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Android Min SDK](https://img.shields.io/badge/Android-7.0%2B%20(API%2024)-brightgreen)](https://developer.android.com)
 
-**Time v2.0** is an ultimate ambient full-screen digital, analog, and word clock app for Android. It features 14 custom Google Fonts, 10 vibrant neon themes, background starfield particle effects, synthesized audio ticks, custom size & glow adjusters, screen keep-on wake lock, and low-brightness night dimming.
+> 🌐 **Try it Live in Your Browser**: [Launch Time Web Edition](https://apravint.github.io/time-android/)
+
+**Time** is an ultimate ambient full-screen digital, analog, and word clock app for Android and the Web. It features 14 custom typography engines, 10 vibrant neon themes, background starfield particle effects, synthesized audio ticks, custom size & glow adjusters, screen keep-on wake lock, and low-brightness night dimming with AMOLED burn-in protection. Compatible with modern Android 15 (SDK 35) Edge-to-Edge display insets and Predictive Back navigation.
 
 Developed by **Ayyappa Pravin** (<apravint@gmail.com>).
 

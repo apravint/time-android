@@ -179,7 +179,7 @@ body.night-mode {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 2.2rem 2rem;
+  padding: max(2.2rem, env(safe-area-inset-top, 0px)) max(2rem, env(safe-area-inset-right, 0px)) max(2.2rem, env(safe-area-inset-bottom, 0px)) max(2rem, env(safe-area-inset-left, 0px));
   z-index: 2;
   cursor: pointer;
 }
