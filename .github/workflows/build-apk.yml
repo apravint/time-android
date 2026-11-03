@@ -77,10 +77,12 @@ jobs:
       - name: Rename & Organize Artifacts
         run: |
           mkdir -p dist/
+          TAG="${{ github.ref_name }}"
+          VERSION="${TAG#v}"
           # Google Play AAB
-          cp build/app/outputs/bundle/release/app-release.aab dist/ChronoCraft-v${{ github.ref_name }}.aab 2>/dev/null || cp build/app/outputs/bundle/release/app-release.aab dist/ChronoCraft-latest.aab
+          cp build/app/outputs/bundle/release/app-release.aab "dist/ChronoCraft-v${VERSION}.aab" 2>/dev/null || cp build/app/outputs/bundle/release/app-release.aab dist/ChronoCraft-latest.aab
           # APKs
-          cp build/app/outputs/flutter-apk/app-release.apk dist/Time-Universal-v${{ github.ref_name }}.apk 2>/dev/null || cp build/app/outputs/flutter-apk/app-release.apk dist/Time-Universal-latest.apk
+          cp build/app/outputs/flutter-apk/app-release.apk "dist/Time-Universal-v${VERSION}.apk" 2>/dev/null || cp build/app/outputs/flutter-apk/app-release.apk dist/Time-Universal-latest.apk
           cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk dist/Time-arm64-v8a.apk 2>/dev/null || true
           cp build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk dist/Time-armeabi-v7a.apk 2>/dev/null || true
           echo "Generated release artifacts:"

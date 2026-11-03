@@ -2,7 +2,7 @@ name: time_app
 description: "ChronoCraft - a full-screen clock, countdown, focus timer and stopwatch for Android."
 publish_to: 'none'
 
-version: 2.1.0+3
+version: 3.2.0+4
 
 environment:
   sdk: ^3.11.5
