@@ -42,7 +42,7 @@
 * **Countdown Timer**:
   - Focus presets: **Pomodoro (25m)**, **Short Break (5m)**, **Deep Work (45m)**, and **Power Nap (20m)**.
   - Giant digital countdown with tactile **START / PAUSE / RESET** buttons.
-  - System bell chime and haptic feedback on completion.
+  - System alert sound and vibration (three pulses) when the timer finishes. The timer runs from an absolute end time, so it stays accurate if the app is paused or briefly backgrounded. There is no background notification: keep the app open (the screen stays on) to hear the alert.
 * **Precision Stopwatch**:
   - Millisecond precision (`MM:SS.ms`).
   - Lap times recording with scrollable delta list.
@@ -50,6 +50,10 @@
 ---
 
 ## 📳 Immersion & Orientation
+
+* **Screen stays on**: the display will not sleep while the clock is open (toggle *Keep Screen On* in the Design Studio).
+* **Remembers your setup**: theme, font, display toggles, last mode, countdown target and timer length are restored on launch.
+* **Screen-reader friendly**: each mode announces its time, and every control has a label.
 
 * **Tap-to-Hide Immersion**: Tap anywhere on the background to hide the top bar, theme selector, and navigation bar—leaving only the pure glowing clock numbers against OLED black.
 * **Adaptive Landscape Dock**: Rotating your device horizontally automatically transforms the layout into a widescreen bedside / desk stand clock with time on the left and focus telemetry on the right.
@@ -85,8 +89,22 @@ Every commit or version tag (`v*`) triggers [`.github/workflows/build-apk.yml`](
 
 ## 🚀 Building & Running Locally
 
+### Project layout
+
+```
+lib/
+  main.dart            app shell, gestures, keyboard shortcuts
+  logic/               pure timer / stopwatch / countdown logic (unit tested)
+  services/            saved settings, wake lock, alerts
+  theme/               24 palettes and 14 fonts
+  views/               clock, countdown, focus timer and stopwatch screens
+  widgets/             Design Studio sheet and the control bars
+test/                  unit and widget tests
+index.html             standalone web live demo (separate from the Flutter app)
+```
+
 ### Prerequisites
-* Flutter SDK (3.22+)
+* Flutter SDK (stable, Dart ^3.11.5 — see `pubspec.yaml`)
 * Android SDK (API 34+) or an active Android device / emulator
 
 ```bash
@@ -100,7 +118,10 @@ flutter pub get
 # 3. Run on connected device or emulator
 flutter run
 
-# 4. Build release APK
+# 4. Run checks (same as CI)
+flutter analyze && flutter test
+
+# 5. Build release APK
 flutter build apk --release
 ```
 
